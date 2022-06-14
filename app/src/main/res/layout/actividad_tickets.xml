@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TabHost
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/tabhost"
+        >
+        <TabWidget
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@android:id/tabs"
+            >
+
+        </TabWidget>
+
+        <!-- android:layout_height="fill_parent"-->
+        <FrameLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@android:id/tabcontent"
+            >
+            <!-- CONTROLES DEL PRIMER TAB -->
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="200px"
+                android:id="@+id/tab1"
+                >
+
+                <TextView
+                    android:id="@+id/TVnombre_producto"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:textStyle="bold"
+                    android:text="Nombre del Ticket "
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/etnombre_producto"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:hint=" Ingrese el nombre del ticket"
+                    android:inputType="text"
+                    android:maxLength="50" />
+
+
+
+                <TextView
+                    android:id="@+id/TVdescripcion_producto"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:textStyle="bold"
+                    android:text="Lugar o sitio de origen "
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/etdescripcion_producto"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:hint=" Ingrese un lugar de origen: SORIANA, WALMART ETC."
+                    android:inputType="text"
+                    android:maxLength="50"
+                    />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:orientation="horizontal" >
+
+                    <Button
+                        android:id="@+id/btnGuardar"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="Guardar"
+                        />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:id="@+id/TV2"
+                    android:layout_weight="1"
+                    android:text="CONTENIDO DEL TEXTIVIEW" />
+
+
+
+
+            </LinearLayout>
+
+
+            <!-- CONTROLES DEL SEGUNDO TAB -->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingTop="200px"
+                android:id="@+id/tab2"
+                >
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+
+                    <TextView
+                        android:id="@+id/TVseleccion_ticket"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textStyle="bold"
+                        android:text="Selecciona un ticket "
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textSize="15dp" />
+
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_weight="3"
+                        android:layout_height="match_parent"
+                        android:scrollbarSize="15dp"
+                        android:id="@+id/spinnerticket"
+                        />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+
+                    <TextView
+                        android:id="@+id/TVid_ticket"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textStyle="bold"
+                        android:text=""
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textSize="15dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+
+                    <TextView
+                        android:id="@+id/TVselecciona_producto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textStyle="bold"
+                        android:text="Escriba un producto "
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textSize="15dp" />
+
+                    <EditText
+                        android:id="@+id/etseleccion_producto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:hint=" Ingrese un nombre de producto"
+                        android:inputType="text"
+                        android:textSize="15dp"
+                        android:maxLength="50" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+                    <Button
+                        android:id="@+id/btnAgregar"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"
+                        android:text="Agregar"
+                        />
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+
+                    <TextView
+                        android:id="@+id/TVseleccion_producto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textStyle="bold"
+                        android:text="Selecciona un producto "
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textSize="15dp" />
+
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_weight="3"
+                        android:layout_height="match_parent"
+                        android:scrollbarSize="15dp"
+                        android:id="@+id/spinnerproductos"
+                        />
+                </LinearLayout>
+
+                <ListView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:id="@+id/listView"
+                    android:layout_weight="2"
+                    android:background="#000000" />
+
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+                    <Button
+                        android:id="@+id/btnguardarTicket"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"
+                        android:text="Guardar"
+                        />
+                </LinearLayout>
+
+
+
+
+
+
+            </LinearLayout>
+
+
+            <!-- CONTROLES DEL TERCER TAB -->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingTop="200px"
+                android:id="@+id/tab3"
+                >
+
+
+
+                <!--ingrese componentes del tercer tab aqui-->
+
+
+                <ListView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:id="@+id/listViewTickets"
+                    android:layout_weight="2"
+                    />
+
+
+
+
+
+            </LinearLayout>
+
+            <!-- CONTROLES DEL CUARTO TAB -->
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingTop="200px"
+                android:id="@+id/tab4"
+                >
+
+
+
+
+                <!--ingrese componentes del cuarto tab aqui-->
+
+
+
+            </LinearLayout>
+
+
+        </FrameLayout>
+    </TabHost>
+</LinearLayout>
