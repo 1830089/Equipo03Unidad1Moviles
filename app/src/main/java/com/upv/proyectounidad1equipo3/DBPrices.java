@@ -76,4 +76,25 @@ public class DBPrices extends ProductosSqlite{
         return obj;
 
     }
+
+
+    public Cursor mostrarfilasprecios(int id_producto){
+
+        try{
+
+            ProductosSqlite p= new ProductosSqlite(context);
+            SQLiteDatabase db= p.getWritableDatabase();
+
+            Cursor filas= db.rawQuery("SELECT * FROM '"+tabla_precios+"'WHERE _id='" +id_producto+ "' ",null);
+
+            if (filas.moveToFirst()){
+                return  filas;
+            }else {
+                return  null;
+            }
+
+        }catch (Exception e){
+            return null;
+        }
+    }
 }

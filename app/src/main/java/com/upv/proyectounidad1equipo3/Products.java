@@ -30,4 +30,8 @@ public class Products {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String toString(){
+        return nombre_producto;
+    }
 }
