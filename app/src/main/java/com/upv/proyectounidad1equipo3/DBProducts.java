@@ -76,6 +76,9 @@ public class DBProducts extends ProductosSqlite{
         return obj;
 
     }
+    
+    public String getAllEntries(){
+        StringBuilder all_entries = new StringBuilder();
 
 
     public Cursor mostrarProductos(){
