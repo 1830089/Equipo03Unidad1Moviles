@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
@@ -21,11 +22,21 @@ import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
+
 import  java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Actividad_productos extends AppCompatActivity {
 
-    Button boton_nuevo_producto;
+    Button boton_nuevo_producto, boton_mostrar_registros;
     TextView TV2;
     EditText nombre_producto;
     EditText descripcion_producto;
@@ -33,7 +44,7 @@ public class Actividad_productos extends AppCompatActivity {
     EditText precio_producto;
     AlertDialog.Builder ADX;
     AlertDialog AD;
-    Spinner sp;
+    Spinner sp, tipo_de_grafica_spinner, product_spinner;
 
     SimpleCursorAdapter sca;
 
@@ -92,6 +103,84 @@ public class Actividad_productos extends AppCompatActivity {
        // cantidad_producto= findViewById(R.id.etCantidad);
         precio_producto= findViewById(R.id.precio_producto);
         sp= (Spinner) findViewById(R.id.spinnerproductos);
+        boton_mostrar_registros = findViewById(R.id.button_graficas);
+        tipo_de_grafica_spinner = findViewById(R.id.spinner_tipo_grafica);
+        product_spinner = findViewById(R.id.spinner_product_selected);
+
+        String[] tipos_graficas = {"Grafica por producto", "Grafica por tienda"};
+        ArrayAdapter ad
+                = new ArrayAdapter(
+                this,
+                android.R.layout.simple_spinner_item,
+                tipos_graficas);
+        // set simple layout resource file
+        // for each item of spinner
+        ad.setDropDownViewResource(
+                android.R.layout
+                        .simple_spinner_dropdown_item);
+        // Set the ArrayAdapter (ad) data on the
+        // Spinner which binds data to spinner
+        tipo_de_grafica_spinner.setAdapter(ad);
+
+        usdbh= new ProductosSqlite(Actividad_productos.this);
+        SQLiteDatabase db= usdbh.getWritableDatabase();
+        if (db != null) {
+            DBProducts productsdb = new DBProducts(Actividad_productos.this);
+            ArrayAdapter ad2
+                    = new ArrayAdapter(
+                    this,
+                    android.R.layout.simple_spinner_item,
+                    productsdb.getAllEntriesNames()
+                    );
+            // set simple layout resource file
+            // for each item of spinner
+            ad2.setDropDownViewResource(
+                    android.R.layout
+                            .simple_spinner_dropdown_item);
+            // Set the ArrayAdapter (ad) data on the
+            // Spinner which binds data to spinner
+            product_spinner.setAdapter(ad2);
+        }
+
+        boton_mostrar_registros.setOnClickListener(view -> {
+            usdbh= new ProductosSqlite(Actividad_productos.this);
+            if (db == null)
+                return;
+
+            DBProducts productsdb= new DBProducts(Actividad_productos.this);
+            DBPrices pricesdb = new DBPrices(Actividad_productos.this);
+
+            Toast.makeText(getApplicationContext(),productsdb.getAllEntries(), Toast.LENGTH_SHORT ).show();
+
+            if (tipo_de_grafica_spinner.getSelectedItem().toString().equals("Grafica por producto")){
+                Toast.makeText(getApplicationContext(),pricesdb.getAllPricesFromProduct(product_spinner.getSelectedItem().toString()).toString(), Toast.LENGTH_SHORT ).show();
+            }
+
+            BarChart bchart = findViewById(R.id.grafica);
+            ArrayList<BarEntry> yVals1 = new ArrayList<>();
+
+
+            List<Float> prices = pricesdb.getAllPricesFromProduct(product_spinner.getSelectedItem().toString());
+            for (int i = 0; i < prices.size(); i++) {
+                yVals1.add(new BarEntry(i, prices.get(i)));
+            }
+
+            BarDataSet set1;
+
+            set1 = new BarDataSet(yVals1, product_spinner.getSelectedItem().toString());
+            set1.setColors(ColorTemplate.MATERIAL_COLORS);
+
+            ArrayList<IBarDataSet> dataSets = new ArrayList<>();
+            dataSets.add(set1);
+
+            BarData data = new BarData(dataSets);
+
+            data.setValueTextSize(10f);
+            data.setBarWidth(0.9f);
+            bchart.setTouchEnabled(true);
+            bchart.setData(data);
+            bchart.animateXY(500, 500);
+        });
 
         // ConsultaTabla_ActualizaSpinner();
 
