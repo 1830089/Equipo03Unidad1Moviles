@@ -6,8 +6,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
 
 public class DBPrices extends ProductosSqlite{
 
@@ -75,5 +78,37 @@ public class DBPrices extends ProductosSqlite{
 
         return obj;
 
+    }
+
+    public ArrayList<Float> getAllPricesFromProduct(String product){
+        ArrayList<Float> prices = new ArrayList<>();
+        int id  = 0;
+
+        try{
+            ProductosSqlite p= new ProductosSqlite(context);
+            SQLiteDatabase db= p.getWritableDatabase();
+
+            Cursor CursorTicket= null;
+            CursorTicket= db.rawQuery("SELECT * FROM "+tabla_products+" WHERE Product_name=\""+product+"\"",null);
+            if(CursorTicket.moveToFirst()){
+                id = CursorTicket.getInt(0);
+                Log.println(Log.ERROR, "NOSE", id+"");
+            }
+
+            CursorTicket= db.rawQuery("SELECT Price FROM "+tabla_precios+" WHERE _id="+id,null);
+            if(CursorTicket.moveToFirst()){
+                do {
+                    prices.add(CursorTicket.getFloat(0));
+                }while (CursorTicket.moveToNext());
+            }
+
+            CursorTicket.close();
+
+        }catch (Exception e){
+            e.toString();
+        }
+
+
+        return prices;
     }
 }

@@ -353,7 +353,7 @@
                     android:text="Tickets existentes "
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:textSize="15dp" />
+                    android:textSize="15sp" />
 
                 <ListView
                     android:layout_height="wrap_content"
@@ -380,6 +380,30 @@
 
 
 
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/spinner_tipo_grafica"
+                        />
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinner_product_selected"
+                    />
+                <Button
+                    android:text="mostrar Grafica"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button_graficas"
+                    />
+
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="450dp"
+                    android:id="@+id/grafica"
+                    />
 
                 <!--ingrese componentes del cuarto tab aqui-->
 

@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import androidx.annotation.Nullable;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class DBProducts extends ProductosSqlite{
@@ -74,6 +75,49 @@ public class DBProducts extends ProductosSqlite{
 
         return obj;
 
+    }
+
+    public String getAllEntries(){
+        StringBuilder all_entries = new StringBuilder();
+
+        ProductosSqlite p= new ProductosSqlite(context);
+        SQLiteDatabase db= p.getWritableDatabase();
+
+        Cursor CursorTicket= null;
+
+        CursorTicket= db.rawQuery("SELECT * FROM "+tabla_products,null);
+
+        if(CursorTicket.moveToFirst()){
+            do {
+                all_entries.append(CursorTicket.getInt(0));
+                all_entries.append(CursorTicket.getString(1));
+                all_entries.append(CursorTicket.getString(2));
+
+            }while (CursorTicket.moveToNext());
+        }
+        CursorTicket.close();
+
+        return all_entries.toString();
+    }
+
+    public String[] getAllEntriesNames(){
+        StringBuilder all_entries = new StringBuilder();
+
+        ProductosSqlite p= new ProductosSqlite(context);
+        SQLiteDatabase db= p.getWritableDatabase();
+
+        Cursor CursorTicket= null;
+
+        CursorTicket= db.rawQuery("SELECT * FROM "+tabla_products,null);
+
+        if(CursorTicket.moveToFirst()){
+            do {
+                all_entries.append(CursorTicket.getString(1)).append(",");
+            }while (CursorTicket.moveToNext());
+        }
+        CursorTicket.close();
+
+        return all_entries.toString().split(",");
     }
 
 }
