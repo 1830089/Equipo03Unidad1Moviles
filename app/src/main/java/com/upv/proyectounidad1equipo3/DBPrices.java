@@ -9,20 +9,16 @@ import android.database.sqlite.SQLiteDatabase;
 
 import androidx.annotation.Nullable;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+public class DBPrices extends ProductosSqlite{
 
-public class DBProducts extends ProductosSqlite{
     Context context;
-
-
-    public DBProducts(@Nullable Context context) {
+    public DBPrices(@Nullable Context context) {
         super(context);
-
-        this.context=context;
+        this.context= context;
     }
 
-    public long insertarNuevoProducto(String nombre_producto, String DescripcionProducto){
+
+    public long insertarNuevoPrecio(float precio_producto){
 
         long id=0;
         try{
@@ -32,11 +28,10 @@ public class DBProducts extends ProductosSqlite{
 
             ContentValues values = new ContentValues();
 
-            values.put("Product_name", nombre_producto);
-            values.put("Description", DescripcionProducto);
+            values.put("Price", precio_producto);
 
 
-            id= db.insert(tabla_products, null, values);
+            id= db.insert(tabla_precios, null, values);
 
         }catch (Exception e){
             e.toString();
@@ -49,21 +44,27 @@ public class DBProducts extends ProductosSqlite{
         return  id;
     }
 
-    public Products devuelveUltimoRegistro(){
-        Products obj= new Products();
+
+    public Prices devuelveUltimoRegistro(){
+        Prices obj= new Prices();
         try{
             ProductosSqlite p= new ProductosSqlite(context);
             SQLiteDatabase db= p.getWritableDatabase();
 
+
             Cursor CursorTicket= null;
 
-            CursorTicket= db.rawQuery("SELECT * FROM "+tabla_products+" ORDER BY _id DESC LIMIT 1",null);
+            CursorTicket= db.rawQuery("SELECT * FROM "+tabla_precios+" ORDER BY _id DESC LIMIT 1",null);
 
-            if(CursorTicket.moveToFirst()) {
+            //System.out.println("estas imprimiendo esto bro "+CursorTicket.getInt(0));
+
+            if(CursorTicket.moveToFirst()){
                 obj.setId(CursorTicket.getInt(0));
-                obj.setNombre_producto(CursorTicket.getString(1));
-                obj.setDescription(CursorTicket.getString(2));
+                obj.setPrice(CursorTicket.getFloat(1));
             }
+
+
+
             CursorTicket.close();
 
 
@@ -75,5 +76,4 @@ public class DBProducts extends ProductosSqlite{
         return obj;
 
     }
-
 }

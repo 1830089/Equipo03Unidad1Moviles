@@ -98,8 +98,8 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:textStyle="bold"
-                        android:text=" Cantidad "
-                        android:layout_weight="3"
+                        android:text=" "
+                        android:layout_weight="1"
                         android:gravity="center"
                         android:textSize="20sp" />
 
@@ -131,14 +131,15 @@
                         android:textSize="20sp" />
 
                     <EditText
-                        android:id="@+id/etPrecio"
+                        android:id="@+id/precio_producto"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="3"
-                        android:hint=" Precio "
-                        android:inputType="number"
-                        android:maxLength="5"
+                        android:hint=" Ingrese un precio"
+                        android:inputType="numberDecimal"
+                        android:maxLength="10"
                         />
+
                     <TextView
                         android:id="@+id/blanco2"
                         android:layout_width="0dp"
@@ -147,14 +148,16 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:textSize="20sp" />
-                    <EditText
-                        android:id="@+id/etCantidad"
+
+                    <TextView
+                        android:id="@+id/blanco19"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="3"
-                        android:hint=" Cantidad "
-                        android:inputType="number"
-                        />
+                        android:text=" "
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textSize="20sp" />
+
 
                     <TextView
                         android:id="@+id/blanco3"
@@ -204,12 +207,6 @@
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="fill_parent"
-                    android:id="@+id/TV2"
-                    android:layout_weight="1"
-                    android:text="CONTENIDO DEL TEXTIVIEW" />
 
 
 
@@ -265,6 +262,15 @@
                         android:layout_height="0dp"
                         android:layout_weight="2"
                         android:text="Agregar"
+                        />
+
+
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_weight="3"
+                        android:layout_height="match_parent"
+                        android:scrollbarSize="15dp"
+                        android:id="@+id/spinnerprecios"
                         />
                 </LinearLayout>
 

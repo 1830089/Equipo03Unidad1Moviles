@@ -91,7 +91,6 @@ public class Actividad_tickets extends AppCompatActivity {
         tabHost.addTab(spec4);
 
         // Otros Recursos (TextView, Buttons, ListView, EditText, etx)
-        DBTickets tickets_db= new DBTickets(Actividad_tickets.this);
         SiguienteID = 0;
 
 
@@ -104,8 +103,8 @@ public class Actividad_tickets extends AppCompatActivity {
         TV2 = (TextView) findViewById(R.id.TV2);
         nombre_producto = findViewById(R.id.etnombre_producto);
         descripcion_producto = findViewById(R.id.etdescripcion_producto);
-        cantidad_producto = findViewById(R.id.etCantidad);
-        precio_producto = findViewById(R.id.etPrecio);
+        //cantidad_producto = findViewById(R.id.etCantidad);
+        //precio_producto = findViewById(R.id.etPrecio);
         sp = (Spinner) findViewById(R.id.spinnerproductos);
 
         obtenerInfo();

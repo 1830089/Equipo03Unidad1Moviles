@@ -20,6 +20,8 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
+import  java.io.*;
 
 public class Actividad_productos extends AppCompatActivity {
 
@@ -34,10 +36,6 @@ public class Actividad_productos extends AppCompatActivity {
     Spinner sp;
 
     SimpleCursorAdapter sca;
-    final String NOMBRE_BASE_DATOS = "ExperimentoTutores04.db";
-
-    final String TABLA_PRINCIPAL = "Tickets";
-    //final String TABLA_SECUNDARIA= "Tutorados";
 
     ProductosSqlite usdbh;
     SQLiteDatabase db;
@@ -61,11 +59,11 @@ public class Actividad_productos extends AppCompatActivity {
 
         TabHost.TabSpec spec2 = tabHost.newTabSpec("");
         spec2.setContent(R.id.tab2);
-        spec2.setIndicator("Nuevo ticket");
+        spec2.setIndicator("Editar Producto");
 
         TabHost.TabSpec spec3 = tabHost.newTabSpec("");
         spec3.setContent(R.id.tab3);
-        spec3.setIndicator("tickets");
+        spec3.setIndicator("Productos");
         //spec3.setIndicator("",getResources().getDrawable(R.mipmap.ic_launcher));
 
         TabHost.TabSpec spec4 = tabHost.newTabSpec("");
@@ -91,8 +89,8 @@ public class Actividad_productos extends AppCompatActivity {
         TV2= (TextView) findViewById(R.id.TV2);
         nombre_producto= findViewById(R.id.etnombre_producto);
         descripcion_producto= findViewById(R.id.etdescripcion_producto);
-        cantidad_producto= findViewById(R.id.etCantidad);
-        precio_producto= findViewById(R.id.etPrecio);
+       // cantidad_producto= findViewById(R.id.etCantidad);
+        precio_producto= findViewById(R.id.precio_producto);
         sp= (Spinner) findViewById(R.id.spinnerproductos);
 
         // ConsultaTabla_ActualizaSpinner();
@@ -103,28 +101,48 @@ public class Actividad_productos extends AppCompatActivity {
             public void onClick(View arg0) {
                 // TODO Auto-generated method stub
                 //Si hemos abierto correctamente la base de datos
-                if(db != null)
-                {
-                    //Generamos los datos
-                    int codigo = SiguienteID;
-                    String nombre= nombre_producto.getText().toString();
-                    String descripcion= descripcion_producto.getText().toString();
-                    int cantidad= Integer.parseInt(cantidad_producto.getText().toString());
-                    float precio= Float.parseFloat(precio_producto.getText().toString());
 
-                    ContentValues values = new ContentValues();
 
-                    values.put("nombre_producto",nombre);
-                    values.put("descripcion_producto",descripcion);
-                    values.put("cantidad_producto",cantidad);
-                    values.put("precio_producto",precio);
 
-                    db.insert(TABLA_PRINCIPAL,null,values);
-                    ConsultaTabla_ActualizaControl ();
-                    AD.setMessage("Insertando un nuevo producto");
-                    AD.show();
+                //Si hemos abierto correctamente la base de datos
+                usdbh= new ProductosSqlite(Actividad_productos.this);
+                SQLiteDatabase db= usdbh.getWritableDatabase();
+                if (db != null) {
+                    DBProducts productsdb= new DBProducts(Actividad_productos.this);
+                    DBPrices pricesdb= new DBPrices(Actividad_productos.this);
 
+                    long id2= pricesdb.insertarNuevoPrecio(Float.parseFloat(precio_producto.getText().toString()));
+
+                    long id= productsdb.insertarNuevoProducto(nombre_producto.getText().toString(),descripcion_producto.getText().toString());
+
+                    if((id>0)&&(id2>0)){
+
+
+                        Prices p1= pricesdb.devuelveUltimoRegistro();
+                        Products p2= productsdb.devuelveUltimoRegistro();
+
+                        DBPrices_Products dbpp= new DBPrices_Products(Actividad_productos.this);
+                        System.out.println(p1.getId());
+                        System.out.println(p2.getId());
+
+                        long id3= dbpp.insertarNuevaRelacion(p2.getId(), p1.getId());
+
+                        if(id3>0) {
+                            Toast.makeText(Actividad_productos.this, "REGISTRO GUARDADO EXITOSAMENTE", Toast.LENGTH_LONG).show();
+
+                            limpiarNuevoTicket();
+                        }
+
+                    }else {
+                        Toast.makeText(Actividad_productos.this,"ERROR AL GUARDAR REGISTRO", Toast.LENGTH_LONG).show();
+
+                    }
+
+                }else{
+                    Toast.makeText(Actividad_productos.this, "erro al conectar bd",Toast.LENGTH_LONG).show();
                 }
+
+
 
             }
         });
@@ -132,43 +150,14 @@ public class Actividad_productos extends AppCompatActivity {
     }
 
 
-
-
-    void ConsultaTabla_ActualizaControl ()
-    {
-        String C1, C2, C3,C4,C5,C6;
-        String Fin="";
-        cursor = db.rawQuery("select * from "+TABLA_PRINCIPAL, null);
-
-        if (cursor.getCount() != 0) {
-            if (cursor.moveToFirst()) {
-                do {
-                    C1 = cursor.getString(cursor
-                            .getColumnIndexOrThrow("_id"));
-
-                    C2 = cursor.getString(cursor
-                            .getColumnIndexOrThrow("nombre_producto"));
-
-                    C3 = cursor.getString(cursor
-                            .getColumnIndexOrThrow("descripcion_producto"));
-
-                    C4 = cursor.getString(cursor
-                            .getColumnIndexOrThrow("cantidad_producto"));
-
-                    C5 = cursor.getString(cursor
-                            .getColumnIndexOrThrow("precio_producto"));
-
-
-                    Fin += C1 + "-" + C2 + "-" + C3 + "-" +C4 + "-" + C5 + "-" +"\n";
-
-                } while (cursor.moveToNext());
-            }
-            TV2.setText(Fin);
-        }
-        cursor.close();
+    private void limpiarNuevoTicket(){
+        nombre_producto.setText("");
+        descripcion_producto.setText("");
+        precio_producto.setText("");
     }
 
-    void ConsultaTabla_ActualizaSpinner ()
+
+    /*void ConsultaTabla_ActualizaSpinner ()
     {
         //cursor = db.rawQuery("select * from "+TABLA_PRINCIPAL, null);
 
@@ -180,7 +169,7 @@ public class Actividad_productos extends AppCompatActivity {
         sca=new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, cursor, adapterCols, adapterRowViews,0);
         sca.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp.setAdapter(sca);
-    }
+    }*/
 
 
 
